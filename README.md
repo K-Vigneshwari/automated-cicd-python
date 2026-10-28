@@ -1,3 +1,4 @@
+[![Python CI Pipeline](https://github.com/K-Vigneshwari/automated-cicd-python/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/K-Vigneshwari/automated-cicd-python/actions/workflows/ci.yml)
 # Automated CI/CD Pipeline with GitHub Actions
 
 ## Project Overview
