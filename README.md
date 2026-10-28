@@ -1,91 +1,59 @@
-[![Python CI Pipeline](https://github.com/K-Vigneshwari/automated-cicd-python/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/K-Vigneshwari/automated-cicd-python/actions/workflows/ci.yml)
-# Automated CI/CD Pipeline with GitHub Actions
+# Cloud Infrastructure Deployment & Monitoring Capstone
 
 ## Project Overview
-This project demonstrates an automated Continuous Integration and Continuous Deployment (CI/CD) pipeline using GitHub Actions, Python, Pytest, Docker, and GitHub Container Registry (GHCR).
 
-Whenever code is pushed to the GitHub repository, the workflow automatically runs tests, builds a Docker image, and publishes the image to GHCR.
+This project demonstrates a containerized Python Flask application deployed on Render, with automated CI checks using GitHub Actions and uptime monitoring through Grafana Cloud Synthetic Monitoring.
+
+## Architecture
+
+1. Developer pushes code to GitHub.
+2. GitHub Actions runs automated tests and code-quality checks.
+3. Docker packages the Flask application into a container.
+4. Render builds and deploys the containerized application.
+5. Grafana Cloud Synthetic Monitoring checks the application's health endpoint.
+6. A Grafana alert rule monitors the health-check result.
 
 ## Technologies Used
-- Python 3.13
-- Pytest
-- Git and GitHub
-- GitHub Actions
-- Docker
-- GitHub Container Registry (GHCR)
 
-## Project Structure
-```text
-cicd-python-project/
-├── app.py
-├── test_app.py
-├── Dockerfile
-├── .gitignore
-├── README.md
-└── .github/
-    └── workflows/
-        └── ci.yml
+* Python
+* Flask
+* Docker
+* GitHub Actions
+* Render
+* Grafana Cloud Synthetic Monitoring
+* Prometheus-compatible probe metrics
+
+## Live Application
+
+* Application: https://automated-cicd-python.onrender.com
+* Health endpoint: https://automated-cicd-python.onrender.com/health
+
+The health endpoint returns HTTP 200 with the JSON response:
+
+```json
+{
+  "status": "healthy"
+}
 ```
 
-## Application
-The Python application displays:
+## Environment Configuration
 
-`Hello! Welcome to my CI/CD project.`
+The application reads its port from the `PORT` environment variable and defaults to `10000` when the variable is not set. The application listens on `0.0.0.0` so it can accept connections inside its container.
 
-## Run Locally
-Run the application:
+## Docker Configuration
 
-```bash
-python app.py
-```
+The Dockerfile uses the lightweight Python 3.13 slim image, installs dependencies from `requirements.txt`, copies the application code, exposes port 10000, and starts the Flask application.
 
-Run automated tests:
+## Continuous Integration
 
-```bash
-python -m pytest
-```
+GitHub Actions runs automated tests and code-quality checks. The application tests validate the home endpoint and health endpoint.
 
-## Build and Run with Docker
-Build the Docker image:
+## Monitoring and Alerting
 
-```bash
-docker build -t cicd-python-project .
-```
+Grafana Cloud Synthetic Monitoring checks:
 
-Run the container:
+`https://automated-cicd-python.onrender.com/health`
 
-```bash
-docker run --rm cicd-python-project
-```
+The monitoring check uses an HTTP GET request and tracks probe success, HTTP status code, response duration, and TLS certificate expiry.
 
-## Published Docker Image
-The Docker image is published to GitHub Container Registry.
-
-Pull the image:
-
-```bash
-docker pull ghcr.io/k-vigneshwari/cicd-python-project:latest
-```
-
-Run the published image:
-
-```bash
-docker run --rm ghcr.io/k-vigneshwari/cicd-python-project:latest
-```
-
-## CI/CD Workflow
-1. Checkout the repository.
-2. Set up Python.
-3. Install Pytest.
-4. Run automated tests.
-5. Build the Docker image.
-6. Publish the image to GHCR.
-
-## Project Outcome
-The project successfully automates Python testing and Docker image publishing using GitHub Actions.
-
-## Repository
-https://github.com/K-Vigneshwari/automated-cicd-python
-
-## Docker Package
-https://github.com/users/K-Vigneshwari/packages/container/cicd-python-project
+A Grafana alert rule named `au
