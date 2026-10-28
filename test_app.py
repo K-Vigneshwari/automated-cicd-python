@@ -1,5 +1,13 @@
-from app import greet
+from app import app
 
+def test_home():
+    client = app.test_client()
+    response = client.get("/")
+    assert response.status_code == 200
+    assert response.json == {"message": "My Cloud Deployment App is running!"}
 
-def test_greet():
-    assert greet() == "Hello! Welcome to my CI/CD project."
+def test_health():
+    client = app.test_client()
+    response = client.get("/health")
+    assert response.status_code == 200
+    assert response.json == {"status": "healthy"}
