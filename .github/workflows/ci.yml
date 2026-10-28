@@ -43,4 +43,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/cicd-python-project:latest
+          tags: ghcr.io/k-vigneshwari/cicd-python-project:latest
